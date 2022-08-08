@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod 
+metadata:
+  name: restapi-postgres-pod 
+  labels: 
+    app: restapi-postgres 
+spec:  
+  containers: 
+    - name: restapi-postgres-db  
+      image: jmaggart/restapi-db 
+      ports: 
+        - containerPort: 5432 
+      env:
+        - name: POSTGRES_DB
+          value: bank
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: ********
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+      volumeMounts: 
+        - mountPath: /var/lib/postgresql/data
+          name: db-data
+  volumes: 
+    - name: db-data  
+      persistentVolumeClaim:
+        claimName: restapi-pvc 
+
+

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restapi
+  namespace: jason-space
+  labels:
+    app: restapi
+spec:
+  selector:
+    matchLabels:
+      app: restapi
+  replicas: 3
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: restapi
+    spec:
+      containers:
+      - name: restapi-deployment
+        image: jmaggart/restapi
+        ports:
+        - containerPort: 7070
+        imagePullPolicy: Always
+        env:
+          - name: db_url
+            value: jdbc:postgresql://postgres-service:5432/bank
+          - name: db_user
+            value: postgres
+          - name: db_pass
+            value: ********
+
