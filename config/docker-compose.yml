@@ -1,0 +1,21 @@
+services:
+  app:
+    image: 'test'
+    container_name: test-container
+    ports:
+      - 7070:7070
+    environment:
+      - db_url=jdbc:postgresql://database-2.cjdho29bgj7p.us-east-1.rds.amazonaws.com:5432/postgres
+      - db_user=postgres
+      - db_pass=*************
+  prom:
+    image: 'prom/prometheus'
+    container_name: promc
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090 
+  graf:
+    image: 'grafana/grafana'
+    ports:
+      - 8000:3000
